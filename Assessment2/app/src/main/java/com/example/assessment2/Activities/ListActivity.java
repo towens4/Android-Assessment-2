@@ -44,6 +44,8 @@ public class ListActivity extends AppCompatActivity
         contactListview.setAdapter(contactListAdapter);
         contactListview.setLayoutManager(new LinearLayoutManager(this));
 
+
+
             Button btnAdd = findViewById(R.id.btn_phoneitemlist_add);
             Button btnDetail = findViewById(R.id.btn_phoneitemlist_detail);
             Button btnDelete;
