@@ -36,8 +36,10 @@ public class EditActivity extends AppCompatActivity
     {
         Log.d(TAG, "setContact: setting contact to edit text widgets");
 
-        EditText txtName = findViewById(R.id.edit_editview_name);
-        txtName.setText(contactObject.getName());
+        EditText txtName = findViewById(R.id.edit_editview_firstname);
+        txtName.setText(contactObject.getFirstName());
+        EditText lastName = findViewById(R.id.edit_editview_lastname);
+        lastName.setText(contactObject.getLastName());
         EditText txtPhonenum = findViewById(R.id.edit_editview_phonenumber);
         txtPhonenum.setText(contactObject.getPhoneNumber());
         EditText txtDate = findViewById(R.id.edit_editview_date);

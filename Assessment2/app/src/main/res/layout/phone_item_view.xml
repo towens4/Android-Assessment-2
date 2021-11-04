@@ -14,11 +14,12 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <TextView
-            android:id="@+id/txt_piv_name"
+            android:id="@+id/txt_piv_firstname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="John Smith"
             android:textSize="20dp"
+            android:layout_marginBottom="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@id/txt_piv_phonenum"
             app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +31,7 @@
             android:text="0823 727 727"
             android:textSize="16dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txt_piv_name"
+            app:layout_constraintStart_toEndOf="@id/txt_piv_firstname"
             app:layout_constraintBottom_toTopOf="@id/txt_piv_date"
             app:layout_constraintEnd_toEndOf="parent"/>
         <TextView
@@ -41,8 +42,21 @@
             android:textSize="16dp"
             app:layout_constraintBaseline_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@id/txt_piv_name"
+            app:layout_constraintStart_toEndOf="@id/txt_piv_firstname"
             app:layout_constraintTop_toBottomOf="@id/txt_piv_phonenum" />
+
+        <TextView
+            android:id="@+id/txt_piv_lastname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/txt_piv_firstname"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/txt_piv_date"
+            app:layout_constraintStart_toStartOf="parent"
+            android:textSize="20dp"
+            android:text="Smith"
+            tools:layout_editor_absoluteX="158dp"
+            tools:layout_editor_absoluteY="22dp" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

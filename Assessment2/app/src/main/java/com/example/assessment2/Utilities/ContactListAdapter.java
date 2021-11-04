@@ -1,6 +1,4 @@
 package com.example.assessment2.Utilities;
-import static androidx.core.app.ActivityCompat.startActivityForResult;
-import static androidx.core.content.ContextCompat.startActivity;
 
 import com.example.assessment2.Activities.EditActivity;
 import  com.example.assessment2.Models.Contact;
@@ -9,13 +7,11 @@ import com.example.assessment2.R;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.icu.util.ULocale;
 import android.os.Build;
 import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -54,7 +50,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, @SuppressLint("RecyclerView") int position) {
-        holder.txtName.setText(dataSet.get(position).getName());
+        holder.txtFirstname.setText(dataSet.get(position).getFirstName());
         holder.txtPhoneNum.setText(dataSet.get(position).getPhoneNumber());
         holder.txtDate.setText(dataSet.get(position).getContactCreationDate().toString());
 
@@ -63,13 +59,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             @Override
             public void onClick(View view) {
                try{
-                   String name = dataSet.get(position).getName();
+                   String firstName = dataSet.get(position).getFirstName();
+                   String lastName = dataSet.get(position).getLastName();
                    String phonenumber = dataSet.get(position).getPhoneNumber();
                    String dob = dataSet.get(position).getContactCreationDate().toString();
 
                    LocalDate date = LocalDate.parse(dob.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH));
                    Intent intent = new Intent(c, EditActivity.class);
-                   intent.putExtra("contactObject", (Parcelable) new Contact(name, phonenumber, Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+                   intent.putExtra("contactObject", (Parcelable) new Contact(firstName, lastName, phonenumber, Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
                    c.startActivity(intent);
                }
                catch(Exception e)
@@ -98,7 +95,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
     public class ContactViewHolder extends RecyclerView.ViewHolder
     {
-        private TextView txtName;
+        private TextView txtFirstname;
+        private TextView txtLastname;
         private TextView txtPhoneNum;
         private TextView txtDate;
         private Button btnEdit;
@@ -110,7 +108,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
 
         public ContactViewHolder(@NonNull View itemView) {
             super(itemView);
-            txtName = itemView.findViewById(R.id.txt_piv_name);
+            txtFirstname = itemView.findViewById(R.id.txt_piv_firstname);
+            txtLastname = itemView.findViewById(R.id.txt_piv_lastname);
             txtPhoneNum = itemView.findViewById(R.id.txt_piv_phonenum);
             txtDate = itemView.findViewById(R.id.txt_piv_date);
 

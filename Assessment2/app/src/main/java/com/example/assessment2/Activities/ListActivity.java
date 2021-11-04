@@ -73,12 +73,12 @@ public class ListActivity extends AppCompatActivity
     {
         contactList = new ArrayList<>();
         LocalDate date = LocalDate.parse("2000-05-05", DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH));
-        contactList.add(new Contact("Alex Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-        contactList.add(new Contact("Alex Wilson", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-        contactList.add(new Contact("Max Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-        contactList.add(new Contact("Johny Coleson", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-        contactList.add(new Contact("Tim Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-        contactList.add(new Contact("Banjo You", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Alex","Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Alex", "Wilson", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Max", "Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Johny", "Coleson", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Tim", "Smith", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+        contactList.add(new Contact("Banjo", "You", "01 8283 2831", Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
     }
 
 

@@ -14,12 +14,12 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/detail_detailview_name"
+        app:layout_constraintBottom_toTopOf="@id/detail_detailview_firstname"
         tools:layout_editor_absoluteX="16dp"
         tools:layout_editor_absoluteY="14dp" />
 
     <EditText
-        android:id="@+id/detail_detailview_name"
+        android:id="@+id/detail_detailview_firstname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:ems="10"
@@ -27,18 +27,18 @@
         android:text="Name"
         app:layout_constraintTop_toBottomOf="@id/label_detailview_title"
         app:layout_constraintBottom_toTopOf="@id/detail_detailview_phonenumber"
-        app:layout_constraintStart_toEndOf="@id/label_detailview_name"
+        app:layout_constraintStart_toEndOf="@id/label_detailview_firstname"
         app:layout_constraintEnd_toEndOf="parent"
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="85dp" />
 
     <TextView
-        android:id="@+id/label_detailview_name"
+        android:id="@+id/label_detailview_firstname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Name"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/detail_detailview_name"
+        app:layout_constraintEnd_toStartOf="@id/detail_detailview_firstname"
         app:layout_constraintTop_toTopOf="@id/label_detailview_title"
         app:layout_constraintBottom_toTopOf="@id/label_detailview_phonenumber"
         tools:layout_editor_absoluteX="16dp"
@@ -49,7 +49,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Phone Number"
-        app:layout_constraintTop_toTopOf="@id/label_detailview_name"
+        app:layout_constraintTop_toTopOf="@id/label_detailview_lastname"
         app:layout_constraintBottom_toBottomOf="@id/label_detailview_date"
         app:layout_constraintEnd_toStartOf="@id/detail_detailview_phonenumber"
         app:layout_constraintStart_toStartOf="parent"
@@ -87,11 +87,36 @@
         android:inputType="phone"
         app:layout_constraintStart_toEndOf="@id/label_detailview_phonenumber"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/detail_detailview_name"
+        app:layout_constraintTop_toBottomOf="@id/detail_detailview_lastname"
         app:layout_constraintBottom_toTopOf="@id/label_detailview_date"
         tools:layout_editor_absoluteX="99dp"
         tools:layout_editor_absoluteY="165dp" />
 
+    <TextView
+        android:id="@+id/label_detailview_lastname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/label_detailview_firstname"
+        app:layout_constraintBottom_toTopOf="@id/label_detailview_phonenumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/detail_detailview_lastname"
+        android:text="Lastname"
+        tools:layout_editor_absoluteX="55dp"
+        tools:layout_editor_absoluteY="347dp" />
+
+    <EditText
+        android:id="@+id/detail_detailview_lastname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        app:layout_constraintTop_toBottomOf="@id/detail_detailview_firstname"
+        app:layout_constraintBottom_toTopOf="@id/detail_detailview_phonenumber"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/label_detailview_lastname"
+        android:inputType="textPersonName"
+        android:text="Name"
+        tools:layout_editor_absoluteX="149dp"
+        tools:layout_editor_absoluteY="343dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

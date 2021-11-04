@@ -4,22 +4,32 @@ import java.util.Date;
 
 public class Contact
 {
-    private String name;
+    private String firstName;
+    private String lastName;
     private String phoneNumber;
     private Date contactCreationDate;
 
-    public Contact(String name, String phoneNumber, Date contactCreationDate) {
-        this.name = name;
+    public Contact(String name, String lastName, String phoneNumber, Date contactCreationDate) {
+        this.firstName = name;
+        this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.contactCreationDate = contactCreationDate;
     }
 
-    public String getName() {
-        return name;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getPhoneNumber() {
