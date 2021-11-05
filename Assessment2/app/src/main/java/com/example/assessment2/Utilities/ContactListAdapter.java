@@ -1,14 +1,16 @@
 package com.example.assessment2.Utilities;
 
 import com.example.assessment2.Activities.EditActivity;
-import  com.example.assessment2.Models.Contact;
+//import  com.example.assessment2.Models.Contact;
+import com.example.assessment2.Models.Contact;
+import com.example.assessment2.Models.ContactSingleton;
 import com.example.assessment2.R;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
-import android.os.Parcelable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,19 +22,14 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Locale;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder>
 {
     public ArrayList<Contact> dataSet;
     private Context c;
 
-
+    ContactSingleton singleton;
 
     public ContactListAdapter(ArrayList<Contact> dataSet, Context c)
     {
@@ -64,9 +61,16 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                    String phonenumber = dataSet.get(position).getPhoneNumber();
                    String dob = dataSet.get(position).getContactCreationDate().toString();
 
-                   LocalDate date = LocalDate.parse(dob.toString(), DateTimeFormatter.ofPattern("yyyy-MM-dd", Locale.ENGLISH));
+                   //LocalDate date = LocalDate.parse(dob);
                    Intent intent = new Intent(c, EditActivity.class);
-                   intent.putExtra("contactObject", (Parcelable) new Contact(firstName, lastName, phonenumber, Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
+                   Bundle extras = new Bundle();
+                   extras.putString("firstname", firstName);
+                   extras.putString("lastname", lastName);
+                   extras.putString("phoneNumber", phonenumber);
+                   extras.putString("dob", dob);
+                   intent.putExtras(extras);
+                   //intent.putExtra("contactObject",  new Contact(firstName, lastName, phonenumber, Date.valueOf(dob)));
+
                    c.startActivity(intent);
                }
                catch(Exception e)
@@ -82,6 +86,17 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.viewPane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String firstName = dataSet.get(position).getFirstName();
+                String lastName = dataSet.get(position).getLastName();
+                String phonenumber = dataSet.get(position).getPhoneNumber();
+                String dob = dataSet.get(position).getContactCreationDate().toString();
+
+                singleton = ContactSingleton.getInstance();
+                singleton.setPos(holder.getAdapterPosition());
+                singleton.setFirstName(firstName);
+                singleton.setLastName(lastName);
+                singleton.setPhoneNumber(phonenumber);
+                singleton.setContactCreationDate(dob);
                 AnimationHandler.moveCard(dx, -150, holder.viewPane, holder.btnEdit);
             }
         });

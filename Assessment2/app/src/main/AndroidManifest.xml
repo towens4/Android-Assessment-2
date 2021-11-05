@@ -29,6 +29,9 @@
         <activity android:name=".Activities.AddActivity">
 
         </activity>
+        <activity android:name=".Activities.EditActivity">
+
+        </activity>
     </application>
 
 </manifest>

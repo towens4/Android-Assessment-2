@@ -23,26 +23,26 @@ public class EditActivity extends AppCompatActivity
 
     private void getIncomingIntent(){
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
-        if(getIntent().hasExtra("contactObject"))
-        {
+        Bundle bundle = getIntent().getExtras();
+
             Log.d(TAG, "getIncomingIntent: found intent extras");
 
             Contact contactObject = getIntent().getParcelableExtra("contactObject");
-            setContact(contactObject);
-        }
+            setContact(bundle);
+
     }
 
-    private void setContact(Contact contactObject)
+    private void setContact(Bundle contactObject)
     {
         Log.d(TAG, "setContact: setting contact to edit text widgets");
 
         EditText txtName = findViewById(R.id.edit_editview_firstname);
-        txtName.setText(contactObject.getFirstName());
+        txtName.setText(contactObject.getString("firstname"));
         EditText lastName = findViewById(R.id.edit_editview_lastname);
-        lastName.setText(contactObject.getLastName());
+        lastName.setText(contactObject.getString("lastname"));
         EditText txtPhonenum = findViewById(R.id.edit_editview_phonenumber);
-        txtPhonenum.setText(contactObject.getPhoneNumber());
+        txtPhonenum.setText(contactObject.getString("phoneNumber"));
         EditText txtDate = findViewById(R.id.edit_editview_date);
-        txtDate.setText(contactObject.getContactCreationDate().toString());
+        txtDate.setText(contactObject.getString("dob"));
     }
 }

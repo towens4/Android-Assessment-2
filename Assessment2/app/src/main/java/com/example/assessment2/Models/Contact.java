@@ -1,6 +1,6 @@
 package com.example.assessment2.Models;
 
-import java.util.Date;
+import java.sql.Date;
 
 public class Contact
 {
