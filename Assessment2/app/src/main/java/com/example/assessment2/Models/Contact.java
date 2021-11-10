@@ -1,19 +1,53 @@
 package com.example.assessment2.Models;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+
 import java.sql.Date;
 
+@Entity(tableName = "contacts")
 public class Contact
 {
-    private String firstName;
-    private String lastName;
-    private String phoneNumber;
-    private Date contactCreationDate;
+    @PrimaryKey(autoGenerate = true)
+    @ColumnInfo(name = "contactID")
+    private int id;
 
+    private int contactID;
+    @ColumnInfo(name = "firstname")
+    private String firstName;
+    @ColumnInfo(name = "lastname")
+    private String lastName;
+    @ColumnInfo(name = "phonenumber")
+    private String phoneNumber;
+    @ColumnInfo(name = "dob")
+    private Date dob;
+
+    @Ignore
     public Contact(String name, String lastName, String phoneNumber, Date contactCreationDate) {
         this.firstName = name;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
-        this.contactCreationDate = contactCreationDate;
+        this.dob = contactCreationDate;
+        setId(this.id);
+        this.contactID = getId();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getContactID() {
+        return contactID;
+    }
+
+    public void setContactID(int contactID) {
+        this.contactID = contactID;
     }
 
     public String getLastName() {
@@ -40,11 +74,11 @@ public class Contact
         this.phoneNumber = phoneNumber;
     }
 
-    public Date getContactCreationDate() {
-        return contactCreationDate;
+    public Date getDob() {
+        return dob;
     }
 
-    public void setContactCreationDate(Date contactCreationDate) {
-        this.contactCreationDate = contactCreationDate;
+    public void setDob(Date dob) {
+        this.dob = dob;
     }
 }

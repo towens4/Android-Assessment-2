@@ -49,7 +49,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public void onBindViewHolder(@NonNull ContactViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtFirstname.setText(dataSet.get(position).getFirstName());
         holder.txtPhoneNum.setText(dataSet.get(position).getPhoneNumber());
-        holder.txtDate.setText(dataSet.get(position).getContactCreationDate().toString());
+        holder.txtDate.setText(dataSet.get(position).getDob().toString());
 
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
@@ -59,7 +59,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                    String firstName = dataSet.get(position).getFirstName();
                    String lastName = dataSet.get(position).getLastName();
                    String phonenumber = dataSet.get(position).getPhoneNumber();
-                   String dob = dataSet.get(position).getContactCreationDate().toString();
+                   String dob = dataSet.get(position).getDob().toString();
 
                    //LocalDate date = LocalDate.parse(dob);
                    Intent intent = new Intent(c, EditActivity.class);
@@ -89,7 +89,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 String firstName = dataSet.get(position).getFirstName();
                 String lastName = dataSet.get(position).getLastName();
                 String phonenumber = dataSet.get(position).getPhoneNumber();
-                String dob = dataSet.get(position).getContactCreationDate().toString();
+                String dob = dataSet.get(position).getDob().toString();
 
                 singleton = ContactSingleton.getInstance();
                 singleton.setPos(holder.getAdapterPosition());
