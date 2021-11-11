@@ -23,15 +23,17 @@ import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder>
 {
-    public ArrayList<Contact> dataSet;
+
+    public List<Contact> dataSet;
     private Context c;
 
     ContactSingleton singleton;
 
-    public ContactListAdapter(ArrayList<Contact> dataSet, Context c)
+    public ContactListAdapter(List<Contact> dataSet, Context c)
     {
         this.dataSet = dataSet;
         this.c = c;

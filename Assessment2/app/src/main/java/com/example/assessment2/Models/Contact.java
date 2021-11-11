@@ -13,8 +13,6 @@ public class Contact
     @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "contactID")
     private int id;
-
-    private int contactID;
     @ColumnInfo(name = "firstname")
     private String firstName;
     @ColumnInfo(name = "lastname")
@@ -24,14 +22,26 @@ public class Contact
     @ColumnInfo(name = "dob")
     private Date dob;
 
-    @Ignore
+    public Contact() {
+    }
+
     public Contact(String name, String lastName, String phoneNumber, Date contactCreationDate) {
         this.firstName = name;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.dob = contactCreationDate;
         setId(this.id);
-        this.contactID = getId();
+
+    }
+
+    @Ignore
+    public Contact(int id, String name, String lastName, String phoneNumber, Date contactCreationDate) {
+        this.firstName = name;
+        this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
+        this.dob = contactCreationDate;
+        this.id = id;
+
     }
 
     public int getId() {
@@ -42,13 +52,7 @@ public class Contact
         this.id = id;
     }
 
-    public int getContactID() {
-        return contactID;
-    }
 
-    public void setContactID(int contactID) {
-        this.contactID = contactID;
-    }
 
     public String getLastName() {
         return lastName;

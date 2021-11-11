@@ -25,7 +25,8 @@ ContactDatabase db;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        db = ContactDatabase.getDBInstance(MainActivity.this);
+        reinitializeDatabase();
         Button but = findViewById(R.id.button);
 
         but.setOnClickListener(new View.OnClickListener() {
