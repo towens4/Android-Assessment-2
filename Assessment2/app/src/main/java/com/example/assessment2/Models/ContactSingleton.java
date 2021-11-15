@@ -6,10 +6,13 @@ public class ContactSingleton
 {
     private static ContactSingleton instance = null;
 
+    private int ID;
     private String firstName;
     private String lastName;
     private String phoneNumber;
     private String contactCreationDate;
+
+    private Contact contact;
 
 
     private int pos;
@@ -61,5 +64,21 @@ public class ContactSingleton
 
     public void setPos(int pos) {
         this.pos = pos;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int ID) {
+        this.ID = ID;
+    }
+
+    public Contact getContact() {
+        return contact;
+    }
+
+    public void setContact(Contact contact) {
+        this.contact = contact;
     }
 }

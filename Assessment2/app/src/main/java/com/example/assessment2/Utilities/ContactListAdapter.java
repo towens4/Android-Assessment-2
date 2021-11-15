@@ -99,6 +99,8 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 singleton.setLastName(lastName);
                 singleton.setPhoneNumber(phonenumber);
                 singleton.setContactCreationDate(dob);
+                singleton.setID(dataSet.get(position).getId());
+                singleton.setContact(dataSet.get(position));
                 AnimationHandler.moveCard(dx, -150, holder.viewPane, holder.btnEdit);
             }
         });

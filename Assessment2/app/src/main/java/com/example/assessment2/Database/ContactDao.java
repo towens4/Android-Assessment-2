@@ -28,4 +28,6 @@ public interface ContactDao
 
     @Query("Select * FROM contacts")
     public List<Contact> getAllContacts();
+
+
 }
