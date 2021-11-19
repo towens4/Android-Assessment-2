@@ -12,11 +12,19 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.assessment2.Database.ContactAPIService;
 import com.example.assessment2.Database.ContactDatabase;
+import com.example.assessment2.Database.RemoteDB;
+import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
 import com.example.assessment2.R;
 
 import java.sql.Date;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class AddActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler
 {
@@ -44,6 +52,28 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
                 Contact c = new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
                         addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString()));
 
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://192.168.0.2/api/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                RemoteDB service = retrofit.create(RemoteDB.class);
+
+                Call<Contact> contactAdd = service.ContactCreate(c);
+
+                contactAdd.enqueue(new Callback<Contact>() {
+                    @Override
+                    public void onResponse(Call<Contact> call, Response<Contact> response) {
+                        Contact con = response.body();
+                        Log.d(TAG, "Successful POST " + con);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Contact> call, Throwable t) {
+                        Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
+                    }
+                });
+
                 db.contactDao().insertContacts(c);
 
                 api.ContactCreate(c, AddActivity.this);
@@ -67,7 +97,7 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
     }
 
     @Override
-    public void ReadAllOnResponseHandler(List<Contact> contactList) {
+    public void ReadAllOnResponseHandler(List<APIContact> contactList) {
 
     }
 
@@ -82,7 +112,7 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
     }
 
     @Override
-    public void OnFailureHandler() {
-        Log.d(TAG, "Failure added contact to API service");
+    public void OnFailureHandler(Throwable t) {
+        Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
     }
 }

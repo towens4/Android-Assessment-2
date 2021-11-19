@@ -1,9 +1,15 @@
 package com.example.assessment2.Database;
 
+import android.util.Log;
+
+import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
+import com.example.assessment2.Utilities.UnsafeOkHttpClient;
 
 import java.util.List;
 
+import okhttp3.CertificatePinner;
+import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -12,13 +18,16 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ContactAPIService
 {
+    private String TAG = this.getClass().getSimpleName();
     private static ContactAPIService remoteDBSingletonInstance = null;
     private static RemoteDB service;
+
+    //OkHttpClient client = UnsafeOkHttpClient.getUnsafeOkHttpClient();
 
     private ContactAPIService()
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:5000/swagger/")
+                .baseUrl("http://192.168.0.2:443/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(RemoteDB.class);
@@ -45,7 +54,7 @@ public class ContactAPIService
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
-                handler.OnFailureHandler();
+                handler.OnFailureHandler(t);
                 return;
             }
         });
@@ -60,13 +69,13 @@ public class ContactAPIService
             @Override
             public void onResponse(Call<Contact> call, Response<Contact> response) {
                 Contact contact1 = response.body();
-                handler.CreateOnResponseHandler(contact);
+                handler.CreateOnResponseHandler(contact1);
                 return;
             }
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
-                handler.OnFailureHandler();
+                handler.OnFailureHandler(t);
                 return;
             }
         });
@@ -75,18 +84,23 @@ public class ContactAPIService
 
     public void ReadAllContacts(final ResultsHandler handler)
     {
-        Call<List<Contact>> contactReadAll = service.GetAllContacts();
-        contactReadAll.enqueue(new Callback<List<Contact>>() {
+        Call<List<APIContact>> contactReadAll = service.GetAllContacts();
+        contactReadAll.enqueue(new Callback<List<APIContact>>() {
+
+
+
             @Override
-            public void onResponse(Call<List<Contact>> call, Response<List<Contact>> response) {
-                List<Contact> contactList = response.body();
+            public void onResponse(Call<List<APIContact>> call, Response<List<APIContact>> response) {
+
+                Log.d(TAG, "Response Contents" + response.body().toString());
+                List<APIContact> contactList = response.body();
                 handler.ReadAllOnResponseHandler(contactList);
                 return;
             }
 
             @Override
-            public void onFailure(Call<List<Contact>> call, Throwable t) {
-                handler.OnFailureHandler();
+            public void onFailure(Call<List<APIContact>> call, Throwable t) {
+                handler.OnFailureHandler(t);
                 return;
             }
         });
@@ -105,7 +119,7 @@ public class ContactAPIService
 
             @Override
             public void onFailure(Call<Void> call, Throwable t) {
-                handler.OnFailureHandler();
+                handler.OnFailureHandler(t);
                 return;
             }
         });
@@ -125,7 +139,7 @@ public class ContactAPIService
 
             @Override
             public void onFailure(Call<Contact> call, Throwable t) {
-                handler.OnFailureHandler();
+                handler.OnFailureHandler(t);
                 return;
             }
         });
@@ -137,9 +151,9 @@ public class ContactAPIService
     {
         void CreateOnResponseHandler(Contact contact);
         void SingleReadOnResponseHandler(Contact contact);
-        void ReadAllOnResponseHandler(List<Contact> contactList);
+        void ReadAllOnResponseHandler(List<APIContact> contactList);
         void EditOnResponseHandler();
         void DeleteOnResponseHandler(Contact contact);
-        void OnFailureHandler();
+        void OnFailureHandler(Throwable t);
     }
 }

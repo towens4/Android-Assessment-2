@@ -92,6 +92,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 String lastName = dataSet.get(position).getLastName();
                 String phonenumber = dataSet.get(position).getPhoneNumber();
                 String dob = dataSet.get(position).getDob().toString();
+                Contact contact = dataSet.get(position);
 
                 singleton = ContactSingleton.getInstance();
                 singleton.setPos(holder.getAdapterPosition());
@@ -100,7 +101,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 singleton.setPhoneNumber(phonenumber);
                 singleton.setContactCreationDate(dob);
                 singleton.setID(dataSet.get(position).getId());
-                singleton.setContact(dataSet.get(position));
+                singleton.setContact(contact);
                 AnimationHandler.moveCard(dx, -150, holder.viewPane, holder.btnEdit);
             }
         });

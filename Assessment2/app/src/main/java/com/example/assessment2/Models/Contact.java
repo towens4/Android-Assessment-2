@@ -22,6 +22,8 @@ public class Contact
     @ColumnInfo(name = "dob")
     private Date dob;
 
+
+
     public Contact() {
     }
 
@@ -85,4 +87,5 @@ public class Contact
     public void setDob(Date dob) {
         this.dob = dob;
     }
+
 }

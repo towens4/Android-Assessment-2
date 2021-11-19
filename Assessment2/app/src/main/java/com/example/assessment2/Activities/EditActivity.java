@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.assessment2.Database.ContactAPIService;
 import com.example.assessment2.Database.ContactDatabase;
+import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
 import com.example.assessment2.Models.ContactSingleton;
 import com.example.assessment2.R;
@@ -100,13 +101,13 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
     }
 
     @Override
-    public void ReadAllOnResponseHandler(List<Contact> contactList) {
+    public void ReadAllOnResponseHandler(List<APIContact> contactList) {
 
     }
 
     @Override
     public void EditOnResponseHandler() {
-        Log.d(TAG, "Contact has been edited in he API service");
+        Log.d(TAG, "Contact has been edited in the API service");
     }
 
     @Override
@@ -115,7 +116,7 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
     }
 
     @Override
-    public void OnFailureHandler() {
-        Log.d(TAG, "Error editing contact in API Service");
+    public void OnFailureHandler(Throwable t) {
+        Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
     }
 }

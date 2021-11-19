@@ -2,6 +2,7 @@ package com.example.assessment2.Database;
 
 import androidx.room.Delete;
 
+import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
 
 import java.util.List;
@@ -20,7 +21,8 @@ public interface RemoteDB
     Call<Contact> ContactCreate(@Body Contact contact);
 
     @GET("Contacts")
-    Call<List<Contact>> GetAllContacts();
+    Call<List<APIContact>> GetAllContacts();
+
     @GET("Contacts")
     Call<Contact> Contact(@Path("id") int id);
 
