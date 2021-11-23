@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.assessment2.Database.ContactAPIService;
 import com.example.assessment2.Database.ContactDatabase;
@@ -46,7 +47,7 @@ ContactDatabase db;
 
 
 
-        ContactAPIService.getInstance().ReadAllContacts(this);
+        //ContactAPIService.getInstance().ReadAllContacts(this);
 
 
 
@@ -65,31 +66,16 @@ ContactDatabase db;
     }
 
     @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(getApplicationContext(), "ON start is called ", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void CreateOnResponseHandler(Contact contact) {
 
     }
 
-    @Override
-    public void SingleReadOnResponseHandler(Contact contact) {
-
-    }
-
-    @Override
-    public void ReadAllOnResponseHandler(List<APIContact> contactList)
-    {
-
-        Log.d(TAG, contactList +"\n\n\nRetrieved successfully\n\n\n");
-    }
-
-    @Override
-    public void EditOnResponseHandler() {
-
-    }
-
-    @Override
-    public void DeleteOnResponseHandler(Contact contact) {
-
-    }
 
     @Override
     public void OnFailureHandler(Throwable t) {

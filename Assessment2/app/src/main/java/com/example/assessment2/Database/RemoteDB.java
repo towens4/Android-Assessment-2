@@ -20,7 +20,7 @@ public interface RemoteDB
     @POST("Contacts")
     Call<Contact> ContactCreate(@Body Contact contact);
 
-    @GET("Contacts")
+   /* @GET("Contacts")
     Call<List<APIContact>> GetAllContacts();
 
     @GET("Contacts")
@@ -30,5 +30,5 @@ public interface RemoteDB
     Call<Void> UpdateContact(@Path("id") int id,@Body Contact contact);
 
     @DELETE("Contacts/{id}")
-    Call<Contact> ContactDelete(@Path("id") int id);
+    Call<Contact> ContactDelete(@Path("id") int id);*/
 }

@@ -52,11 +52,13 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
                 contact.setLastName(lastName.getText().toString());
                 contact.setPhoneNumber(phoneNumber.getText().toString());
                 contact.setDob(Date.valueOf(dob.getText().toString()));
+
+                //edits existing contact
                 db.contactDao().updateContacts(contact);
 
                 Toast.makeText(EditActivity.this, "Contact Edited", Toast.LENGTH_SHORT).show();
 
-                api.EditContact(contact.getId(), contact, EditActivity.this);
+                //api.EditContact(contact.getId(), contact, EditActivity.this);
 
                 Intent intent = new Intent(EditActivity.this, ListActivity.class);
                 startActivity(intent);
@@ -92,26 +94,6 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
 
     @Override
     public void CreateOnResponseHandler(Contact contact) {
-
-    }
-
-    @Override
-    public void SingleReadOnResponseHandler(Contact contact) {
-
-    }
-
-    @Override
-    public void ReadAllOnResponseHandler(List<APIContact> contactList) {
-
-    }
-
-    @Override
-    public void EditOnResponseHandler() {
-        Log.d(TAG, "Contact has been edited in the API service");
-    }
-
-    @Override
-    public void DeleteOnResponseHandler(Contact contact) {
 
     }
 

@@ -27,7 +27,7 @@ public class ContactAPIService
     private ContactAPIService()
     {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl("http://192.168.0.2:443/api/")
+                .baseUrl("http://192.168.0.2:5000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         service = retrofit.create(RemoteDB.class);
@@ -42,7 +42,7 @@ public class ContactAPIService
         return remoteDBSingletonInstance;
     }
 
-    public void ReadOneContact(int id, final ResultsHandler handler)
+    /*public void ReadOneContact(int id, final ResultsHandler handler)
     {
         Call<Contact> contactReadOne = service.Contact(id);
         contactReadOne.enqueue(new Callback<Contact>() {
@@ -60,10 +60,11 @@ public class ContactAPIService
         });
 
         return;
-    }
+    }*/
 
     public void ContactCreate(Contact contact, final ResultsHandler handler)
     {
+        Log.d(TAG,"Contact = " + contact);
         Call<Contact> createContact = service.ContactCreate(contact);
         createContact.enqueue(new Callback<Contact>() {
             @Override
@@ -82,7 +83,7 @@ public class ContactAPIService
         return;
     }
 
-    public void ReadAllContacts(final ResultsHandler handler)
+    /*public void ReadAllContacts(final ResultsHandler handler)
     {
         Call<List<APIContact>> contactReadAll = service.GetAllContacts();
         contactReadAll.enqueue(new Callback<List<APIContact>>() {
@@ -144,16 +145,16 @@ public class ContactAPIService
             }
         });
         return;
-    }
+    }*/
 
 
     public interface ResultsHandler
     {
         void CreateOnResponseHandler(Contact contact);
-        void SingleReadOnResponseHandler(Contact contact);
+        /*void SingleReadOnResponseHandler(Contact contact);
         void ReadAllOnResponseHandler(List<APIContact> contactList);
         void EditOnResponseHandler();
-        void DeleteOnResponseHandler(Contact contact);
+        void DeleteOnResponseHandler(Contact contact);*/
         void OnFailureHandler(Throwable t);
     }
 }

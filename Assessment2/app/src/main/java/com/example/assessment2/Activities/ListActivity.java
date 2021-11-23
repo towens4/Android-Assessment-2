@@ -36,9 +36,11 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
         setContentView(R.layout.phonebook_list);
         db = ContactDatabase.getDBInstance(ListActivity.this);
         //initItems();
-
+        List<Contact> initialList = db.contactDao().getAllContacts();
         RecyclerView contactListview = findViewById(R.id.recycleListView);
-        contactListAdapter = new ContactListAdapter(db.contactDao().getAllContacts(), ListActivity.this);
+
+        //loads contact list from database into adapter
+        contactListAdapter = new ContactListAdapter(initialList, ListActivity.this);
 
         contactListview.setAdapter(contactListAdapter);
         contactListview.setLayoutManager(new LinearLayoutManager(this));
@@ -49,6 +51,17 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
             Button btnAdd = findViewById(R.id.btn_phoneitemlist_add);
             Button btnDetail = findViewById(R.id.btn_phoneitemlist_detail);
             Button btnDelete = findViewById(R.id.btn_phoneitemlist_delete);
+            Button btnSort = findViewById(R.id.btn_phoneitemlist_sort);
+
+            btnSort.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    contactListAdapter = new ContactListAdapter(sort(initialList), ListActivity.this);
+                    contactListview.setAdapter(contactListAdapter);
+                    contactListview.setLayoutManager(new LinearLayoutManager(ListActivity.this));
+                }
+            });
 
             btnAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -90,7 +103,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
                 @Override
                 public void onClick(View view) {
 
-                    ContactAPIService.getInstance().DeleteContact(singleton.getContact().getId(), ListActivity.this);
+                    //ContactAPIService.getInstance().DeleteContact(singleton.getContact().getId(), ListActivity.this);
                 }
             });
     }
@@ -115,25 +128,24 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
 
     }
 
-    @Override
-    public void SingleReadOnResponseHandler(Contact contact) {
+    private List<Contact> sort(List<Contact> list)
+    {
+        for(int i = 0; i < list.size() - 1; i++)
+        {
+            for (int j = 0; j < list.size()- 1; j++)
+            {
+                if(list.get(j).getLastName().compareTo(list.get(j+1).getLastName()) > 0 )
+                {
+                    Contact temp = list.get(j);
+                    list.set(j, list.get(j+1));
+                    list.set(j+1, temp);
+                }
+            }
+        }
 
+        return list;
     }
 
-    @Override
-    public void ReadAllOnResponseHandler(List<APIContact> contactList) {
-
-    }
-
-    @Override
-    public void EditOnResponseHandler() {
-
-    }
-
-    @Override
-    public void DeleteOnResponseHandler(Contact contact) {
-        Log.d(TAG, contact + "Was deleted by API");
-    }
 
     @Override
     public void OnFailureHandler(Throwable t) {

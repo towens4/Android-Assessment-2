@@ -122,7 +122,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         private Button btnEdit;
         private CardView viewPane;
 
-        //private final Context context;
+
 
         public Contact contactData;
 
@@ -136,18 +136,6 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
             viewPane = itemView.findViewById(R.id.view_card_contact);
             btnEdit = itemView.findViewById(R.id.btn_edit);
 
-            //context = itemView.getContext();
-
-            /*btnEdit.setOnClickListener(new View.OnClickListener() {
-                @RequiresApi(api = Build.VERSION_CODES.O)
-                @Override
-                public void onClick(View view) {
-                    Intent intent  = new Intent(itemView.getContext(), EditActivity.class);
-                    LocalDate date = LocalDate.parse(txtDate.toString(), DateTimeFormatter.ofPattern("d, mmmm, yyyy", Locale.ENGLISH));
-                    intent.putExtra("contactObject", (Parcelable) new Contact(txtName.toString(), txtPhoneNum.toString(), Date.from(date.atStartOfDay(ZoneId.systemDefault()).toInstant())));
-                    context.startActivity(intent);
-                }
-            });*/
 
         }
     }

@@ -32,7 +32,7 @@ public class Contact
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.dob = contactCreationDate;
-        setId(this.id);
+        //setId(this.id);
 
     }
 
@@ -88,4 +88,14 @@ public class Contact
         this.dob = dob;
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", dob=" + dob +
+                '}';
+    }
 }

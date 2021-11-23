@@ -43,7 +43,7 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
         addDob = findViewById(R.id.add_addview_date);
         db = ContactDatabase.getDBInstance(AddActivity.this);
 
-        ContactAPIService api = ContactAPIService.getInstance();
+
 
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,31 +52,17 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
                 Contact c = new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
                         addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString()));
 
-                Retrofit retrofit = new Retrofit.Builder()
-                        .baseUrl("http://192.168.0.2/api/")
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
 
-                RemoteDB service = retrofit.create(RemoteDB.class);
-
-                Call<Contact> contactAdd = service.ContactCreate(c);
-
-                contactAdd.enqueue(new Callback<Contact>() {
-                    @Override
-                    public void onResponse(Call<Contact> call, Response<Contact> response) {
-                        Contact con = response.body();
-                        Log.d(TAG, "Successful POST " + con);
-                    }
-
-                    @Override
-                    public void onFailure(Call<Contact> call, Throwable t) {
-                        Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
-                    }
-                });
-
+                //adds contact into database
                 db.contactDao().insertContacts(c);
 
-                api.ContactCreate(c, AddActivity.this);
+                for(Contact contacts : db.contactDao().getAllContacts())
+                {
+                    Log.d(TAG, contacts.toString());
+                }
+
+                //Calling Web API for insertion
+                ContactAPIService.getInstance().ContactCreate(c, AddActivity.this);
 
                 Toast.makeText(AddActivity.this, "Contact Added!", Toast.LENGTH_SHORT).show();
 
@@ -88,27 +74,7 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
 
     @Override
     public void CreateOnResponseHandler(Contact contact) {
-        Log.d(TAG, "Contact has been added to API service");
-    }
-
-    @Override
-    public void SingleReadOnResponseHandler(Contact contact) {
-
-    }
-
-    @Override
-    public void ReadAllOnResponseHandler(List<APIContact> contactList) {
-
-    }
-
-    @Override
-    public void EditOnResponseHandler() {
-
-    }
-
-    @Override
-    public void DeleteOnResponseHandler(Contact contact) {
-
+        Log.d(TAG, "Contact" + contact.toString() + " has been added to API service");
     }
 
     @Override
