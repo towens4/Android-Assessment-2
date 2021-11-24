@@ -92,5 +92,12 @@ ContactDatabase db;
         db.contactDao().insertContacts(new Contact("Johny", "Coleson", "01 8283 2831", Date.valueOf("2013-09-12")));
         db.contactDao().insertContacts(new Contact("Tim", "Smith", "01 8283 2831", Date.valueOf("2017-09-03")));
         db.contactDao().insertContacts(new Contact("Banjo", "You", "01 8283 2831", Date.valueOf("2016-09-04")));
+        db.contactDao().insertContacts(new Contact("Johny", "Coleson", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Melson", "Rudeger", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Kelly", "Flanagan", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Lorena", "Petersen", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Eliza", "Planse", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Carly", "Pierce", "01 8283 2831", Date.valueOf("2013-09-12")));
+        db.contactDao().insertContacts(new Contact("Damien", "Thomand", "01 8283 2831", Date.valueOf("2013-09-12")));
     }
 }

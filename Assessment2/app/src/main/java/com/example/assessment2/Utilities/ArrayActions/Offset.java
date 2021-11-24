@@ -1,11 +1,14 @@
 package com.example.assessment2.Utilities.ArrayActions;
 
-import Model.Contact;
+
+
+import com.example.assessment2.Models.Contact;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Offset {
-    public static int calcOffsetByKey(int key, ArrayList<Contact>[] hashTable)
+    public static int calcOffsetByKey(int key, List<Contact>[] hashTable)
     {
         int offset= 0;
         if(key < 0 || key >= hashTable.length)

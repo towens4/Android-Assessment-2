@@ -6,10 +6,11 @@ import com.example.assessment2.Models.Contact;
 
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.List;
 
 public class Hash
 {
-    public static void BuildHashTable(ArrayList<Contact> list, ArrayList<Contact>[] hashTable)
+    public static void BuildHashTable(List<Contact> list, List<Contact>[] hashTable)
     {
         if(list == null)
         {

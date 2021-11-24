@@ -5,12 +5,13 @@ package com.example.assessment2.Utilities.ArrayActions;
 import com.example.assessment2.Models.Contact;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Convert
 {
-    public ArrayList<Contact> toList(ArrayList<Contact>[] hashList)
+    public static List<Contact> toList(List<Contact>[] hashList)
     {
-        ArrayList<Contact> list = new ArrayList<>();
+        List<Contact> list = new ArrayList<>();
         for(int i = 0; i < hashList.length; i ++)
         {
             for(int j = 0; j < hashList[i].size(); j++)
