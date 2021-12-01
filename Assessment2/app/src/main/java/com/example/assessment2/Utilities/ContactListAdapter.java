@@ -7,14 +7,19 @@ import com.example.assessment2.Models.ContactSingleton;
 import com.example.assessment2.R;
 
 import android.annotation.SuppressLint;
+import android.content.ClipData;
+import android.content.ClipDescription;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -24,19 +29,40 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.ContactViewHolder>
 {
 
     public List<Contact> dataSet;
+    private List<Contact> dataSetFull;
     private Context c;
+    private ContactClickInterface clickInterface;
+
+    RecyclerView _RecyclerView;
 
     ContactSingleton singleton;
 
-    public ContactListAdapter(List<Contact> dataSet, Context c)
+    public ContactListAdapter(List<Contact> dataSet, Context c, ContactClickInterface clickInterface)
     {
         this.dataSet = dataSet;
+        this.dataSetFull = new ArrayList<>(dataSet);
+        this.clickInterface = clickInterface;
         this.c = c;
+    }
+
+    @Override
+    public void onAttachedToRecyclerView(RecyclerView recyclerView) {
+        super.onAttachedToRecyclerView(recyclerView);
+
+        _RecyclerView = recyclerView;
+    }
+
+    public void filteredList(List<Contact> filterList)
+    {
+        dataSet = filterList;
+
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -47,6 +73,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         return cvh;
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public void onBindViewHolder(@NonNull ContactViewHolder holder, @SuppressLint("RecyclerView") int position) {
         holder.txtFirstname.setText(dataSet.get(position).getFirstName());
@@ -54,6 +81,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.txtPhoneNum.setText(dataSet.get(position).getPhoneNumber());
         holder.txtDate.setText(dataSet.get(position).getDob().toString());
 
+        clickInterface.getPosition(holder.getAdapterPosition());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override
@@ -106,12 +134,53 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 AnimationHandler.moveCard(dx, -150, holder.viewPane, holder.btnEdit);
             }
         });
+
+        holder.viewPane.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ContactSingleton.getInstance().setContact(dataSet.get(position));
+                return false;
+            }
+        });
+
+        holder.viewPane.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, @SuppressLint("ClickableViewAccessibility") MotionEvent motionEvent)
+            {
+                if(motionEvent.getAction() == MotionEvent.ACTION_DOWN)
+                {
+                        ClipData.Item item = new ClipData.Item((CharSequence) view.getTag());
+
+                        ClipData dragData = new ClipData(
+                                (CharSequence) view.getTag(),
+                          new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
+                          item
+                        );
+
+                        View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                        view.startDragAndDrop(dragData, shadowBuilder, view, 0);
+                        ContactSingleton.getInstance().setPos(holder.getAdapterPosition());
+                        ContactSingleton.getInstance().setContact(dataSet.get(position));
+
+
+                    return true;
+                }
+                else {
+
+
+                    return false;
+                }
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return dataSet.size();
     }
+
+
+
 
 
     public class ContactViewHolder extends RecyclerView.ViewHolder

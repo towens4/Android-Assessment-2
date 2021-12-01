@@ -17,12 +17,12 @@ import retrofit2.http.Path;
 
 public interface RemoteDB
 {
-    @POST("Contacts")
+    @POST("Contacts/")
     Call<Contact> ContactCreate(@Body Contact contact);
 
-   /* @GET("Contacts")
+    @GET("Contacts")
     Call<List<APIContact>> GetAllContacts();
-
+/*
     @GET("Contacts")
     Call<Contact> Contact(@Path("id") int id);
 

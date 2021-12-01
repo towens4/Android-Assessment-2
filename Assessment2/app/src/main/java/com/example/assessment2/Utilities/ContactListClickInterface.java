@@ -1,6 +1,9 @@
 package com.example.assessment2.Utilities;
 
+import com.example.assessment2.Models.Contact;
+
 public interface ContactListClickInterface
 {
-    void onItemClick(int position);
+    Contact onItemClick(int position);
+    Contact onLongItemClick(int position);
 }

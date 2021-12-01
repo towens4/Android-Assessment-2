@@ -4,12 +4,9 @@ import android.util.Log;
 
 import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
-import com.example.assessment2.Utilities.UnsafeOkHttpClient;
 
 import java.util.List;
 
-import okhttp3.CertificatePinner;
-import okhttp3.OkHttpClient;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -83,7 +80,7 @@ public class ContactAPIService
         return;
     }
 
-    /*public void ReadAllContacts(final ResultsHandler handler)
+    public void ReadAllContacts(final ResultsHandler handler)
     {
         Call<List<APIContact>> contactReadAll = service.GetAllContacts();
         contactReadAll.enqueue(new Callback<List<APIContact>>() {
@@ -95,7 +92,7 @@ public class ContactAPIService
 
                 Log.d(TAG, "Response Contents" + response.body().toString());
                 List<APIContact> contactList = response.body();
-                handler.ReadAllOnResponseHandler(contactList);
+                //handler.ReadAllOnResponseHandler(contactList);
                 return;
             }
 
@@ -107,7 +104,7 @@ public class ContactAPIService
         });
         return;
     }
-
+/*
     public void EditContact(int id, Contact contact, final ResultsHandler handler)
     {
         Call<Void> editContact = service.UpdateContact(id, contact);
