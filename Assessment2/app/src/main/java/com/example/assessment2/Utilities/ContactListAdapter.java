@@ -138,12 +138,23 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.viewPane.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                ClipData.Item item = new ClipData.Item((CharSequence) view.getTag());
+
+                ClipData dragData = new ClipData(
+                        (CharSequence) view.getTag(),
+                        new String[] {ClipDescription.MIMETYPE_TEXT_PLAIN},
+                        item
+                );
+
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view);
+                view.startDragAndDrop(dragData, shadowBuilder, view, 0);
+                ContactSingleton.getInstance().setPos(holder.getAdapterPosition());
                 ContactSingleton.getInstance().setContact(dataSet.get(position));
                 return false;
             }
         });
 
-        holder.viewPane.setOnTouchListener(new View.OnTouchListener() {
+       /* holder.viewPane.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View view, @SuppressLint("ClickableViewAccessibility") MotionEvent motionEvent)
             {
@@ -171,7 +182,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                     return false;
                 }
             }
-        });
+        });*/
     }
 
     @Override
