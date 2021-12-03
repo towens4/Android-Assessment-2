@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/example2_bg"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ThemeExample2"
+    android:padding="16dp"
+    tools:background="@color/colorBackgroundDarkTheme"
+    android:background="?attr/colorBackground">
+
+    <Button
+        android:id="@+id/btnLight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:text="Light Mode"
+        android:textColor="?attr/colorButtonTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnDark"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView"
+        tools:backgroundTint="@color/colorPrimaryDarkTheme"
+        tools:textColor="@color/colorButtonTextColorDarkTheme" />
+
+    <Button
+        android:id="@+id/btnDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:backgroundTint="?attr/colorPrimary"
+        android:text="Dark Mode"
+        android:textColor="?attr/colorButtonTextColor"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btnLight"
+        app:layout_constraintTop_toBottomOf="@id/textView2"
+        tools:backgroundTint="@color/colorPrimaryDarkTheme"
+        tools:textColor="@color/colorButtonTextColorDarkTheme" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test View"
+        android:textColor="?attr/colorTextHighEmphasis"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnLight"
+        app:layout_constraintEnd_toStartOf="@id/textView2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="109dp"
+        tools:textColor="@color/colorTextHighEmphasisDarkTheme" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test View"
+        android:textColor="?attr/colorTextHighEmphasis"
+        android:textSize="20dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnDark"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="205dp"
+        tools:textColor="@color/colorTextHighEmphasisDarkTheme" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
