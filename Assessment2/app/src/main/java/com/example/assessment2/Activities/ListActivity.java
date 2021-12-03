@@ -186,36 +186,28 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
                   {
                       case DragEvent.ACTION_DRAG_STARTED:
                           Log.d(TAG, "onDrag: started");
-                          // Signals the start of a drag and drop operation.
-                          // Code for that event here
+
                           return true;
                       case DragEvent.ACTION_DRAG_ENTERED:
                           Log.d(TAG, "onDrag: entered");
-                          // Signals to a View that the drag point has
-                          // entered the bounding box of the View.
 
                           return  true;
                       case DragEvent.ACTION_DRAG_EXITED:
                           Log.d(TAG, "onDrag: Exited");
-                          // Signals that the user has moved the drag shadow
-                          // outside the bounding box of the View.
 
                           return true;
                       case DragEvent.ACTION_DROP:
                           Log.d(TAG, "onDrag: Dropped");
 
-                          // Signals to a View that the user has released the drag shadow,
-                          // and the drag point is within the bounding box of the View.
-                          // Get View dragged item is being dropped on
 
                               contactListAdapter.dataSet.remove(singleton.getPos());
                               db.contactDao().deleteStudents(singleton.getContact());
                               contactListAdapter.notifyDataSetChanged();
-                              // Make desired changes to the drop target below
+
                               view.setTag("dropped");
 
 
-                              // Get owner of the dragged view and remove the view (if needed)
+
                               ViewGroup owner = (ViewGroup) draggedView.getParent();
                               owner.removeView(draggedView);
                               Log.d(TAG, "onDrag: Dropped Success");
@@ -225,21 +217,19 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
 
 
                       case DragEvent.ACTION_DRAG_ENDED:
-                          // Signals to a View that the drag and drop operation has concluded.
-                          // If event result is set, this means the dragged view was dropped in target
-                          if (dragEvent.getResult()) { // drop succeeded
+
+                          if (dragEvent.getResult()) {
                               Log.d(TAG, "onDrag: Successful");
 
 
-                          } else { // drop did not occur
-                              // restore the view as visible
+                          } else {
                               draggedView.post(new Runnable() {
                                   @Override
                                   public void run() {
                                       draggedView.setVisibility(View.VISIBLE);
                                   }
                               });
-                              // restore drop zone default background
+
                               Log.d(TAG, "onDrag: Unsuccessful");
                           }
                       default:
