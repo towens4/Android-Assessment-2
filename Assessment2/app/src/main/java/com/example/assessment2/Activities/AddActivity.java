@@ -49,12 +49,13 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
             @Override
             public void onClick(View view) {
 
-                Contact c = new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
-                        addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString()));
+                /*Contact c = new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
+                        addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString()));*/
 
 
                 //adds contact into database
-                db.contactDao().insertContacts(c);
+                db.contactDao().insertContacts(new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
+                        addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString())));
 
                 for(Contact contacts : db.contactDao().getAllContacts())
                 {
@@ -62,7 +63,7 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
                 }
 
                 //Calling Web API for insertion
-                ContactAPIService.getInstance().ContactCreate(c, AddActivity.this);
+                //ContactAPIService.getInstance().ContactCreate(c, AddActivity.this);
 
                 Toast.makeText(AddActivity.this, "Contact Added!", Toast.LENGTH_SHORT).show();
 

@@ -37,17 +37,17 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
     public List<Contact> dataSet;
     private List<Contact> dataSetFull;
     private Context c;
-    private ContactClickInterface clickInterface;
+
 
     RecyclerView _RecyclerView;
 
     ContactSingleton singleton;
 
-    public ContactListAdapter(List<Contact> dataSet, Context c, ContactClickInterface clickInterface)
+    public ContactListAdapter(List<Contact> dataSet, Context c)
     {
         this.dataSet = dataSet;
         this.dataSetFull = new ArrayList<>(dataSet);
-        this.clickInterface = clickInterface;
+
         this.c = c;
     }
 
@@ -81,7 +81,7 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.txtPhoneNum.setText(dataSet.get(position).getPhoneNumber());
         holder.txtDate.setText(dataSet.get(position).getDob().toString());
 
-        clickInterface.getPosition(holder.getAdapterPosition());
+        //clickInterface.getPosition(holder.getAdapterPosition());
         holder.btnEdit.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.O)
             @Override

@@ -84,7 +84,7 @@ ContactDatabase db;
 
     @Override
     public void CreateOnResponseHandler(Contact contact) {
-
+        Log.d(TAG, contact.toString());
     }
 
 

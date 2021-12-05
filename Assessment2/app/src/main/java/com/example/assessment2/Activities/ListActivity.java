@@ -1,7 +1,5 @@
 package com.example.assessment2.Activities;
 
-import android.content.ClipData;
-import android.content.ClipDescription;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Build;
@@ -13,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.SearchView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -24,28 +21,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.assessment2.Database.ContactAPIService;
 import com.example.assessment2.Database.ContactDatabase;
-import com.example.assessment2.Models.APIContact;
 import com.example.assessment2.Models.Contact;
 import com.example.assessment2.Models.ContactSingleton;
 import com.example.assessment2.R;
 import com.example.assessment2.Utilities.ArrayActions.Convert;
-import com.example.assessment2.Utilities.ArrayActions.Offset;
-import com.example.assessment2.Utilities.Box;
-import com.example.assessment2.Utilities.ContactClickInterface;
 import com.example.assessment2.Utilities.ContactListAdapter;
-import com.example.assessment2.Utilities.ContactListClickInterface;
-import com.example.assessment2.Utilities.HashProcess.Hash;
-import com.example.assessment2.Utilities.MyDragShadowBuilder;
 import com.example.assessment2.Utilities.MyHash;
 import com.example.assessment2.Utilities.Sort;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
-public class ListActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler, ItemTouchHelper.ViewDropHandler, ContactClickInterface
+public class ListActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler, ItemTouchHelper.ViewDropHandler
 {
     private MyHash hash;
     private String TAG = this.getClass().getSimpleName();
@@ -54,7 +41,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
     //private static List<Contact> contactList;
     ContactListAdapter contactListAdapter;
     RecyclerView contactListview;
-    ContactClickInterface clickInterface;
+
     List<Contact> initialList;
 
 
@@ -72,7 +59,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
         hash.BuildHashTable(initialList, hash.getHashTable());
 
         //loads contact list from database into adapter
-        contactListAdapter = new ContactListAdapter(Convert.toList(hash.getHashTable()), ListActivity.this, this);
+        contactListAdapter = new ContactListAdapter(Convert.toList(hash.getHashTable()), ListActivity.this);
 
         contactListview.setAdapter(contactListAdapter);
         contactListview.setLayoutManager(new LinearLayoutManager(this));
@@ -90,7 +77,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
                 @Override
                 public void onClick(View view) {
 
-                    contactListAdapter = new ContactListAdapter(sort(initialList), ListActivity.this, clickInterface);
+                    contactListAdapter = new ContactListAdapter(sort(initialList), ListActivity.this);
                     contactListview.setAdapter(contactListAdapter);
                     contactListview.setLayoutManager(new LinearLayoutManager(ListActivity.this));
                 }
@@ -539,8 +526,5 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
     }
 
 
-    @Override
-    public int getPosition(int position) {
-        return position;
-    }
+
 }
