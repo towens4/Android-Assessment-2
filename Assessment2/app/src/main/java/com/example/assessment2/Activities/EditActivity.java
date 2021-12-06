@@ -20,7 +20,7 @@ import com.example.assessment2.R;
 import java.sql.Date;
 import java.util.List;
 
-public class EditActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler
+public class EditActivity extends AppCompatActivity
 {
     private static final String TAG = "EditActivity";
     ContactDatabase db;
@@ -29,7 +29,7 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_view);
 
-        ContactAPIService api = ContactAPIService.getInstance();
+
         ContactSingleton contactSingleton = ContactSingleton.getInstance();
 
         getIncomingIntent();
@@ -44,10 +44,10 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
             @Override
             public void onClick(View view) {
 
-                /*db.contactDao().updateContacts(new Contact(firstName.getText().toString(),
-                        lastName.getText().toString(), phoneNumber.getText().toString(),
-                        Date.valueOf(dob.getText().toString())));*/
+                //sets initial contact from what was clicked in the ListActivity
                 Contact contact = contactSingleton.getContact();
+
+                //Assigns the new values to existing object
                 contact.setFirstName(firstName.getText().toString());
                 contact.setLastName(lastName.getText().toString());
                 contact.setPhoneNumber(phoneNumber.getText().toString());
@@ -58,8 +58,8 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
 
                 Toast.makeText(EditActivity.this, "Contact Edited", Toast.LENGTH_SHORT).show();
 
-                //api.EditContact(contact.getId(), contact, EditActivity.this);
 
+                //redirects to ListActivity once the operation has been complete
                 Intent intent = new Intent(EditActivity.this, ListActivity.class);
                 startActivity(intent);
             }
@@ -67,6 +67,7 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
         });
     }
 
+    //passes in the bundle from ContactAdapter for the setting of the fields
     private void getIncomingIntent(){
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
         Bundle bundle = getIntent().getExtras();
@@ -78,6 +79,7 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
 
     }
 
+    //sets the displayed contents of the contact
     private void setContact(Bundle contactObject)
     {
         Log.d(TAG, "setContact: setting contact to edit text widgets");
@@ -90,15 +92,5 @@ public class EditActivity extends AppCompatActivity implements ContactAPIService
         txtPhonenum.setText(contactObject.getString("phoneNumber"));
         EditText txtDate = findViewById(R.id.edit_editview_date);
         txtDate.setText(contactObject.getString("dob"));
-    }
-
-    @Override
-    public void CreateOnResponseHandler(Contact contact) {
-
-    }
-
-    @Override
-    public void OnFailureHandler(Throwable t) {
-        Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
     }
 }

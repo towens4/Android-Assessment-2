@@ -32,7 +32,7 @@ import com.example.assessment2.Utilities.Sort;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ListActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler, ItemTouchHelper.ViewDropHandler
+public class ListActivity extends AppCompatActivity implements ContactAPIService.ResultsHandler
 {
     private MyHash hash;
     private String TAG = this.getClass().getSimpleName();
@@ -52,233 +52,188 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
         setContentView(R.layout.phonebook_list);
         db = ContactDatabase.getDBInstance(ListActivity.this);
 
+        //initialises the list with the database list of contacts
          initialList = db.contactDao().getAllContacts();
          contactListview = findViewById(R.id.recycleListView);
         hash = new MyHash();
 
+        //creates hash table using the initial list given by the database
         hash.BuildHashTable(initialList, hash.getHashTable());
 
-        //loads contact list from database into adapter
+        //loads contact list from hashList into adapter
         contactListAdapter = new ContactListAdapter(Convert.toList(hash.getHashTable()), ListActivity.this);
 
+        //sets the adapter of the recycler view.
         contactListview.setAdapter(contactListAdapter);
         contactListview.setLayoutManager(new LinearLayoutManager(this));
 
+        //sets the buttons of the side bars
         setAllNavBtnCLickListener();
 
 
-            Button btnAdd = findViewById(R.id.btn_phoneitemlist_add);
-            Button btnDetail = findViewById(R.id.btn_phoneitemlist_detail);
-            Button btnDelete = findViewById(R.id.btn_phoneitemlist_delete);
-            Button btnSort = findViewById(R.id.btn_phoneitemlist_sort);
-            SearchView srcView = (SearchView) findViewById(R.id.search_phoneitemlist);
+        //initialises the buttons and search view
+        Button btnAdd = findViewById(R.id.btn_phoneitemlist_add);
+        Button btnDetail = findViewById(R.id.btn_phoneitemlist_detail);
+        Button btnDelete = findViewById(R.id.btn_phoneitemlist_delete);
+        Button btnSort = findViewById(R.id.btn_phoneitemlist_sort);
+        SearchView srcView = (SearchView) findViewById(R.id.search_phoneitemlist);
 
-            btnSort.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
 
-                    contactListAdapter = new ContactListAdapter(sort(initialList), ListActivity.this);
-                    contactListview.setAdapter(contactListAdapter);
-                    contactListview.setLayoutManager(new LinearLayoutManager(ListActivity.this));
-                }
-            });
+        btnSort.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-            btnAdd.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(ListActivity.this, AddActivity.class);
+                //sorts the list of the initial list by last name and resets the adapter
+                contactListAdapter = new ContactListAdapter(sort(initialList), ListActivity.this);
+                contactListview.setAdapter(contactListAdapter);
+                contactListview.setLayoutManager(new LinearLayoutManager(ListActivity.this));
+            }
+        });
+
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //redirects to AddActivity
+                Intent intent = new Intent(ListActivity.this, AddActivity.class);
+                startActivity(intent);
+            }
+        });
+
+        btnDetail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+
+
+                    singleton = ContactSingleton.getInstance();
+                    Intent intent = new Intent(ListActivity.this, DetailActivity.class);
+                    Bundle extras = new Bundle();
+
+                    //assigns the string values to the values of the properties of the contact singleton
+                    String firstName = singleton.getFirstName();
+                    String lastName = singleton.getLastName();
+                    String phonenumber = singleton.getPhoneNumber();
+                    String dob = singleton.getContactCreationDate();
+
+                    //Assigns the String values to the bundle
+                    extras.putString("firstname", firstName);
+                    extras.putString("lastname", lastName);
+                    extras.putString("phoneNumber", phonenumber);
+                    extras.putString("dob", dob);
+                    intent.putExtras(extras);
+                    //redirects to the detail page
                     startActivity(intent);
                 }
-            });
-
-            btnDetail.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    try {
-
-
-                        singleton = ContactSingleton.getInstance();
-                        Intent intent = new Intent(ListActivity.this, DetailActivity.class);
-                        Bundle extras = new Bundle();
-                        String firstName = singleton.getFirstName();
-
-                        String lastName = singleton.getLastName();
-                        String phonenumber = singleton.getPhoneNumber();
-                        String dob = singleton.getContactCreationDate();
-
-                        extras.putString("firstname", firstName);
-                        extras.putString("lastname", lastName);
-                        extras.putString("phoneNumber", phonenumber);
-                        extras.putString("dob", dob);
-                        intent.putExtras(extras);
-                        startActivity(intent);
-                    }
-                    catch(Exception e)
-                    {
-                        e.getStackTrace();
-                    }
+                catch(Exception e)
+                {
+                    e.getStackTrace();
                 }
-            });
-            btnDelete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    //RecyclerView.ViewHolder holder = contactListview.findViewHolderForAdapterPosition(getPosition());
+            }
+        });
 
-                    ContactDatabase.getDBInstance(ListActivity.this).contactDao().deleteStudents(singleton.getContact());
-                    contactListAdapter.dataSet.get(singleton.getPos());
-                }
-            });
 
-            srcView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String s) {
+        srcView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
 
 
 
+                //searches for given object by the value provided by the search view
+                Contact result = Sort.binarySearch(s, initialList);
 
-                        Contact result = Sort.binarySearch(s, initialList);
+                //creates new list to insert a single value of the result which will filter the
+                //adapterList by only presenting the found contact
+                List<Contact> list = new ArrayList<>();
+                list.add(result);
+
+                contactListAdapter.filteredList(list);
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
 
 
-                        List<Contact> list = new ArrayList<>();
-                        list.add(result);
-                        contactListAdapter.filteredList(list);
-                        /*contactListAdapter = new ContactListAdapter(list, ListActivity.this);
-                         contactListview.setAdapter(contactListAdapter);
-                         contactListview.setLayoutManager(new LinearLayoutManager(ListActivity.this));*/
+
+        contactListAdapter.onAttachedToRecyclerView(contactListview);
+
+        //Listens for the drag provided by the dragged card
+      btnDelete.setOnDragListener(new View.OnDragListener() {
+
+          @Override
+          public boolean onDrag(View view, DragEvent dragEvent) {
+              final View draggedView = (View) dragEvent.getLocalState();
+              switch (dragEvent.getAction())
+              {
+                  case DragEvent.ACTION_DRAG_STARTED:
+                      Log.d(TAG, "onDrag: started");
+
+                      return true;
+                  case DragEvent.ACTION_DRAG_ENTERED:
+                      Log.d(TAG, "onDrag: entered");
+
+                      return  true;
+                  case DragEvent.ACTION_DRAG_EXITED:
+                      Log.d(TAG, "onDrag: Exited");
+
+                      return true;
+                  case DragEvent.ACTION_DROP:
+                      Log.d(TAG, "onDrag: Dropped");
+
+                        //removes the object at the given position when the contact has been dropped on it
+                          contactListAdapter.dataSet.remove(singleton.getPos());
+                          db.contactDao().deleteStudents(singleton.getContact());
+                          contactListAdapter.notifyDataSetChanged();
+
+                          view.setTag("dropped");
 
 
 
-
-
-                    return false;
-                }
-
-                @Override
-                public boolean onQueryTextChange(String s) {
-                    return false;
-                }
-            });
-
-            //ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
-            //itemTouchHelper.attachToRecyclerView(contactListview);
-
-            contactListAdapter.onAttachedToRecyclerView(contactListview);
-
-          btnDelete.setOnDragListener(new View.OnDragListener() {
-             
-              @Override
-              public boolean onDrag(View view, DragEvent dragEvent) {
-                  final View draggedView = (View) dragEvent.getLocalState();
-                  switch (dragEvent.getAction())
-                  {
-                      case DragEvent.ACTION_DRAG_STARTED:
-                          Log.d(TAG, "onDrag: started");
-
+                          ViewGroup owner = (ViewGroup) draggedView.getParent();
+                          owner.removeView(draggedView);
+                          Log.d(TAG, "onDrag: Dropped Success");
                           return true;
-                      case DragEvent.ACTION_DRAG_ENTERED:
-                          Log.d(TAG, "onDrag: entered");
-
-                          return  true;
-                      case DragEvent.ACTION_DRAG_EXITED:
-                          Log.d(TAG, "onDrag: Exited");
-
-                          return true;
-                      case DragEvent.ACTION_DROP:
-                          Log.d(TAG, "onDrag: Dropped");
-
-
-                              contactListAdapter.dataSet.remove(singleton.getPos());
-                              db.contactDao().deleteStudents(singleton.getContact());
-                              contactListAdapter.notifyDataSetChanged();
-
-                              view.setTag("dropped");
-
-
-
-                              ViewGroup owner = (ViewGroup) draggedView.getParent();
-                              owner.removeView(draggedView);
-                              Log.d(TAG, "onDrag: Dropped Success");
-                              return true;
 
 
 
 
-                      case DragEvent.ACTION_DRAG_ENDED:
+                  case DragEvent.ACTION_DRAG_ENDED:
 
-                          if (dragEvent.getResult()) {
-                              Log.d(TAG, "onDrag: Successful");
+                      if (dragEvent.getResult()) {
+                          Log.d(TAG, "onDrag: Successful");
 
 
-                          } else {
-                              draggedView.post(new Runnable() {
-                                  @Override
-                                  public void run() {
-                                      draggedView.setVisibility(View.VISIBLE);
-                                  }
-                              });
+                      } else {
+                          draggedView.post(new Runnable() {
+                              @Override
+                              public void run() {
+                                  draggedView.setVisibility(View.VISIBLE);
+                              }
+                          });
 
-                              Log.d(TAG, "onDrag: Unsuccessful");
-                          }
-                      default:
-                          break;
-                  }
-                  return false;
+                          Log.d(TAG, "onDrag: Unsuccessful");
+                      }
+                  default:
+                      break;
               }
-          });
+              return false;
+          }
+      });
 
 
 
     }
 
-    ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP | ItemTouchHelper.DOWN | ItemTouchHelper.START | ItemTouchHelper.END, 0) {
-        @Override
-        public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
-
-            int fromPosition = viewHolder.getAdapterPosition();
-            int toPosition = target.getAdapterPosition();
-
-            Button btnDelete = findViewById(R.id.btn_phoneitemlist_delete);
 
 
 
 
-            //Collections.swap(Convert.toList(hash.getHashTable()), fromPosition, toPosition);
-
-            //prepareForDrop(viewHolder.itemView, btnDelete, 0, 0);
-
-            //recyclerView.getAdapter().notifyItemMoved(fromPosition, toPosition);
-
-            ContactDatabase.getDBInstance(ListActivity.this).contactDao().deleteStudents(contactListAdapter.dataSet.get(viewHolder.getAdapterPosition()));
-            recyclerView.getAdapter().notifyDataSetChanged();
-
-            return false;
-        }
-
-        @Override
-        public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
-
-        }
 
 
-
-    };
-
-
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    private void initItems()
-    {
-        //contactList = db.contactDao().getAllContacts();
-        //String str = "2000-05-05";
-
-        /*.add(new Contact("Alex","Smith", "01 8283 2831", Date.valueOf(str)));
-        contactList.add(new Contact("Alex", "Wilson", "01 8283 2831", Date.valueOf(str)));
-        contactList.add(new Contact("Max", "Smith", "01 8283 2831", Date.valueOf(str)));
-        contactList.add(new Contact("Johny", "Coleson", "01 8283 2831", Date.valueOf(str)));
-        contactList.add(new Contact("Tim", "Smith", "01 8283 2831", Date.valueOf(str)));
-        contactList.add(new Contact("Banjo", "You", "01 8283 2831", Date.valueOf(str)));*/
-    }
 
 
     @Override
@@ -286,6 +241,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
 
     }
 
+    //sorts list of contacts by lastname in a descending order
     private List<Contact> sort(List<Contact> list)
     {
         for(int i = 0; i < list.size() - 1; i++)
@@ -312,6 +268,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
 
     private void navBtnClick(int key)
     {
+        //if the key provided is greater than 26 or less than 0 return null else get offset
         if(key < 0 || key > 26)
         {
             return;
@@ -321,6 +278,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
         ((LinearLayoutManager) contactListview.getLayoutManager()).scrollToPositionWithOffset(offset, 0);
     }
 
+    //Listens for whatever button is pressed determined by the key
     private  void setAllNavBtnCLickListener()
     {
         findViewById(R.id.btn_main_nav_ee).setOnClickListener(new View.OnClickListener() {
@@ -488,42 +446,7 @@ public class ListActivity extends AppCompatActivity implements ContactAPIService
 
     }
 
-    @Override
-    public void prepareForDrop(@NonNull View view, @NonNull View target, int x, int y) {
 
-
-        target.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent event) {
-                int x = (int)event.getRawX();
-                int y = (int)event.getRawY();
-                if(event.getAction() == MotionEvent.ACTION_HOVER_EXIT){
-                    if(isViewInBounds(target, x, y))
-                        target.dispatchTouchEvent(event);
-                    else if(isViewInBounds(target, x, y)){
-                        Log.d(TAG, "onTouch target");
-                        ContactDatabase.getDBInstance(ListActivity.this).contactDao().deleteStudents(singleton.getContact());
-                    }
-                }
-                return false;
-            }
-        });
-
-        view.offsetLeftAndRight(x);
-        view.offsetTopAndBottom(y);
-
-        db.contactDao().deleteStudents(singleton.getContact());
-    }
-
-    private boolean isViewInBounds(View view, int x, int y)
-    {
-        Rect outRect = new Rect();
-        int[] location = new int[2];
-        view.getDrawingRect(outRect);
-        view.getLocationOnScreen(location);
-        outRect.offset(location[0], location[1]);
-        return outRect.contains(x,y);
-    }
 
 
 

@@ -19,17 +19,19 @@ public class ContactAPIService
     private static ContactAPIService remoteDBSingletonInstance = null;
     private static RemoteDB service;
 
-    //OkHttpClient client = UnsafeOkHttpClient.getUnsafeOkHttpClient();
-
     private ContactAPIService()
     {
+        //creates retrofit object using url and GsonConvertor factory
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl("http://192.168.0.2:5000/api/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
+
+        //Assigns the retrofit object to the service interface
         service = retrofit.create(RemoteDB.class);
     }
 
+    //gets or creates instance of ContactAPIService
     public static ContactAPIService getInstance()
     {
         if(remoteDBSingletonInstance == null)
@@ -39,25 +41,7 @@ public class ContactAPIService
         return remoteDBSingletonInstance;
     }
 
-    /*public void ReadOneContact(int id, final ResultsHandler handler)
-    {
-        Call<Contact> contactReadOne = service.Contact(id);
-        contactReadOne.enqueue(new Callback<Contact>() {
-            @Override
-            public void onResponse(Call<Contact> call, Response<Contact> response) {
-                Contact contact = response.body();
-                handler.SingleReadOnResponseHandler(contact);
-            }
 
-            @Override
-            public void onFailure(Call<Contact> call, Throwable t) {
-                handler.OnFailureHandler(t);
-                return;
-            }
-        });
-
-        return;
-    }*/
 
     public void ContactCreate(Contact contact, final ResultsHandler handler)
     {
@@ -80,6 +64,7 @@ public class ContactAPIService
         return;
     }
 
+    //Reads all contacts in the server-side database
     public void ReadAllContacts(final ResultsHandler handler)
     {
         Call<List<APIContact>> contactReadAll = service.GetAllContacts();
@@ -104,54 +89,10 @@ public class ContactAPIService
         });
         return;
     }
-/*
-    public void EditContact(int id, Contact contact, final ResultsHandler handler)
-    {
-        Call<Void> editContact = service.UpdateContact(id, contact);
-        editContact.enqueue(new Callback<Void>() {
-            @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
-                handler.EditOnResponseHandler();
-                return;
-            }
-
-            @Override
-            public void onFailure(Call<Void> call, Throwable t) {
-                handler.OnFailureHandler(t);
-                return;
-            }
-        });
-        return;
-    }
-
-    public void DeleteContact(int id, final ResultsHandler handler)
-    {
-        Call<Contact> contactDelete = service.ContactDelete(id);
-        contactDelete.enqueue(new Callback<Contact>() {
-            @Override
-            public void onResponse(Call<Contact> call, Response<Contact> response) {
-                Contact contact = response.body();
-                handler.DeleteOnResponseHandler(contact);
-                return;
-            }
-
-            @Override
-            public void onFailure(Call<Contact> call, Throwable t) {
-                handler.OnFailureHandler(t);
-                return;
-            }
-        });
-        return;
-    }*/
-
 
     public interface ResultsHandler
     {
         void CreateOnResponseHandler(Contact contact);
-        /*void SingleReadOnResponseHandler(Contact contact);
-        void ReadAllOnResponseHandler(List<APIContact> contactList);
-        void EditOnResponseHandler();
-        void DeleteOnResponseHandler(Contact contact);*/
         void OnFailureHandler(Throwable t);
     }
 }

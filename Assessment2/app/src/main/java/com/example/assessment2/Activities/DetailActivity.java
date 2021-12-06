@@ -20,6 +20,7 @@ public class DetailActivity extends AppCompatActivity
         getIncomingIntent();
     }
 
+    //passes in the bundle from ListActivity for the setting of the fields
     private void getIncomingIntent(){
         Log.d(TAG, "getIncomingIntent: checking for incoming intents");
         Bundle bundle = getIntent().getExtras();
@@ -31,6 +32,7 @@ public class DetailActivity extends AppCompatActivity
 
     }
 
+    //sets the displayed contents of the contact
     private void setContact(Bundle contactObject)
     {
         Log.d(TAG, "setContact: setting contact to edit text widgets");

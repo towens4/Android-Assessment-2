@@ -60,6 +60,7 @@ ContactDatabase db;
         but.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //directs to the ListActivity class
                 Intent intent = new Intent(MainActivity.this, ListActivity.class);
                 startActivity(intent);
             }
@@ -69,6 +70,7 @@ ContactDatabase db;
         camera.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Opens the phones camera
                 Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
                 startActivity(intent);
             }
@@ -93,6 +95,7 @@ ContactDatabase db;
         Log.d(TAG, "Retrofit Exception -> " + ((t != null && t.getMessage() != null) ? t.getMessage() : "---"));
     }
 
+    //Loads in default data on startup to the database
     private void reinitializeDatabase()
     {
         db.contactDao().ClearTable();

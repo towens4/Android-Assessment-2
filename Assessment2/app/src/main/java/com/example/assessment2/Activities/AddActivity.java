@@ -32,10 +32,13 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
     ContactDatabase db;
     Button btnAdd;
     EditText addFirstname, addLastname, addDob, addPhonenumber;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_view);
+
+        //Instantiation of views and db instance
         btnAdd = findViewById(R.id.btn_addview_add);
         addFirstname = findViewById(R.id.add_addview_firstname);
         addLastname = findViewById(R.id.add_addview_lastname);
@@ -49,11 +52,10 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
             @Override
             public void onClick(View view) {
 
-                /*Contact c = new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
-                        addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString()));*/
 
 
-                //adds contact into database
+
+                //adds new contact into database
                 db.contactDao().insertContacts(new Contact(addFirstname.getText().toString(), addLastname.getText().toString(),
                         addPhonenumber.getText().toString(), Date.valueOf(addDob.getText().toString())));
 
@@ -62,11 +64,11 @@ public class AddActivity extends AppCompatActivity implements ContactAPIService.
                     Log.d(TAG, contacts.toString());
                 }
 
-                //Calling Web API for insertion
-                //ContactAPIService.getInstance().ContactCreate(c, AddActivity.this);
+
 
                 Toast.makeText(AddActivity.this, "Contact Added!", Toast.LENGTH_SHORT).show();
 
+                //redirects  back to the listview once the operation is complete
                 Intent intent = new Intent(AddActivity.this, ListActivity.class);
                 startActivity(intent);
             }

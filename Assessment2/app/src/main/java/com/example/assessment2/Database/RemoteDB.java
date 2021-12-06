@@ -17,18 +17,12 @@ import retrofit2.http.Path;
 
 public interface RemoteDB
 {
+    //Call to create a contact in the server side database
     @POST("Contacts/")
     Call<Contact> ContactCreate(@Body Contact contact);
 
+    //Call to get all contacts in server side database
     @GET("Contacts")
     Call<List<APIContact>> GetAllContacts();
-/*
-    @GET("Contacts")
-    Call<Contact> Contact(@Path("id") int id);
 
-    @PUT("Contacts/{id}")
-    Call<Void> UpdateContact(@Path("id") int id,@Body Contact contact);
-
-    @DELETE("Contacts/{id}")
-    Call<Contact> ContactDelete(@Path("id") int id);*/
 }

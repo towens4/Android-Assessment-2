@@ -6,6 +6,7 @@ import java.util.List;
 
 public class Sort
 {
+    //searches for the value provided by variable string from within the list given as a parameter
     public static Contact binarySearch(String value, List<Contact> list)
     {
         int index = 0;

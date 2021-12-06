@@ -117,12 +117,14 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
         holder.viewPane.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Assigns the string values the data from the fields of the card view
                 String firstName = dataSet.get(position).getFirstName();
                 String lastName = dataSet.get(position).getLastName();
                 String phonenumber = dataSet.get(position).getPhoneNumber();
                 String dob = dataSet.get(position).getDob().toString();
                 Contact contact = dataSet.get(position);
 
+                //Assigns the properties of the singleton
                 singleton = ContactSingleton.getInstance();
                 singleton.setPos(holder.getAdapterPosition());
                 singleton.setFirstName(firstName);
@@ -131,10 +133,13 @@ public class ContactListAdapter extends RecyclerView.Adapter<ContactListAdapter.
                 singleton.setContactCreationDate(dob);
                 singleton.setID(dataSet.get(position).getId());
                 singleton.setContact(contact);
+
+                //Moves card to the left
                 AnimationHandler.moveCard(dx, -150, holder.viewPane, holder.btnEdit);
             }
         });
 
+        //allows the dragging of the card view
         holder.viewPane.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
